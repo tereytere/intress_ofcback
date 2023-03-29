@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Holidays index{% endblock %}
+
+{% block body %}
+    <h1>Holidays index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for holiday in holidays %}
+            <tr>
+                <td>{{ holiday.id }}</td>
+                <td>{{ holiday.date }}</td>
+                <td>
+                    <a href="{{ path('app_holidays_show', {'id': holiday.id}) }}">show</a>
+                    <a href="{{ path('app_holidays_edit', {'id': holiday.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_holidays_new') }}">Create new</a>
+{% endblock %}
