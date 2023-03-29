@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Holidays{% endblock %}
+
+{% block body %}
+    <h1>Edit Holidays</h1>
+
+    {{ include('holidays/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_holidays_index') }}">back to list</a>
+
+    {{ include('holidays/_delete_form.html.twig') }}
+{% endblock %}
