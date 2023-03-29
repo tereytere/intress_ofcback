@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documents{% endblock %}
+
+{% block body %}
+    <h1>Documents</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ document.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ document.date }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ document.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_documents_index') }}">back to list</a>
+
+    <a href="{{ path('app_documents_edit', {'id': document.id}) }}">edit</a>
+
+    {{ include('documents/_delete_form.html.twig') }}
+{% endblock %}

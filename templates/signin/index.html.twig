@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signin index{% endblock %}
+
+{% block body %}
+    <h1>Signin index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Timestart</th>
+                <th>Timestop</th>
+                <th>Timefinish</th>
+                <th>Hourcount</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for signin in signins %}
+            <tr>
+                <td>{{ signin.id }}</td>
+                <td>{{ signin.timestart }}</td>
+                <td>{{ signin.timestop }}</td>
+                <td>{{ signin.timefinish }}</td>
+                <td>{{ signin.hourcount }}</td>
+                <td>
+                    <a href="{{ path('app_signin_show', {'id': signin.id}) }}">show</a>
+                    <a href="{{ path('app_signin_edit', {'id': signin.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_signin_new') }}">Create new</a>
+{% endblock %}
