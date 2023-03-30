@@ -2,26 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\WorkShops;
+use App\Entity\Workshops;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WorkShopsType extends AbstractType
+class WorkshopsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
-            ->add('user')
             ->add('schedule')
+            ->add('personal')
+            ->add('signins')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => WorkShops::class,
+            'data_class' => Workshops::class,
         ]);
     }
 }

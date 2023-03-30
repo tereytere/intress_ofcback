@@ -2,77 +2,77 @@
 
 namespace App\Controller;
 
-use App\Entity\WorkShops;
-use App\Form\WorkShopsType;
-use App\Repository\WorkShopsRepository;
+use App\Entity\Workshops;
+use App\Form\WorkshopsType;
+use App\Repository\WorkshopsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/work/shops')]
-class WorkShopsController extends AbstractController
+#[Route('/workshops')]
+class WorkshopsController extends AbstractController
 {
-    #[Route('/', name: 'app_work_shops_index', methods: ['GET'])]
-    public function index(WorkShopsRepository $workShopsRepository): Response
+    #[Route('/', name: 'app_workshops_index', methods: ['GET'])]
+    public function index(WorkshopsRepository $workshopsRepository): Response
     {
-        return $this->render('work_shops/index.html.twig', [
-            'work_shops' => $workShopsRepository->findAll(),
+        return $this->render('workshops/index.html.twig', [
+            'workshops' => $workshopsRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_work_shops_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, WorkShopsRepository $workShopsRepository): Response
+    #[Route('/new', name: 'app_workshops_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, WorkshopsRepository $workshopsRepository): Response
     {
-        $workShop = new WorkShops();
-        $form = $this->createForm(WorkShopsType::class, $workShop);
+        $workshop = new Workshops();
+        $form = $this->createForm(WorkshopsType::class, $workshop);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $workShopsRepository->save($workShop, true);
+            $workshopsRepository->save($workshop, true);
 
-            return $this->redirectToRoute('app_work_shops_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_workshops_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('work_shops/new.html.twig', [
-            'work_shop' => $workShop,
+        return $this->renderForm('workshops/new.html.twig', [
+            'workshop' => $workshop,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_work_shops_show', methods: ['GET'])]
-    public function show(WorkShops $workShop): Response
+    #[Route('/{id}', name: 'app_workshops_show', methods: ['GET'])]
+    public function show(Workshops $workshop): Response
     {
-        return $this->render('work_shops/show.html.twig', [
-            'work_shop' => $workShop,
+        return $this->render('workshops/show.html.twig', [
+            'workshop' => $workshop,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_work_shops_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, WorkShops $workShop, WorkShopsRepository $workShopsRepository): Response
+    #[Route('/{id}/edit', name: 'app_workshops_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Workshops $workshop, WorkshopsRepository $workshopsRepository): Response
     {
-        $form = $this->createForm(WorkShopsType::class, $workShop);
+        $form = $this->createForm(WorkshopsType::class, $workshop);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $workShopsRepository->save($workShop, true);
+            $workshopsRepository->save($workshop, true);
 
-            return $this->redirectToRoute('app_work_shops_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_workshops_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('work_shops/edit.html.twig', [
-            'work_shop' => $workShop,
+        return $this->renderForm('workshops/edit.html.twig', [
+            'workshop' => $workshop,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_work_shops_delete', methods: ['POST'])]
-    public function delete(Request $request, WorkShops $workShop, WorkShopsRepository $workShopsRepository): Response
+    #[Route('/{id}', name: 'app_workshops_delete', methods: ['POST'])]
+    public function delete(Request $request, Workshops $workshop, WorkshopsRepository $workshopsRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$workShop->getId(), $request->request->get('_token'))) {
-            $workShopsRepository->remove($workShop, true);
+        if ($this->isCsrfTokenValid('delete'.$workshop->getId(), $request->request->get('_token'))) {
+            $workshopsRepository->remove($workshop, true);
         }
 
-        return $this->redirectToRoute('app_work_shops_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_workshops_index', [], Response::HTTP_SEE_OTHER);
     }
 }

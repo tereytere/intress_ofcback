@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\WorkShops;
+use App\Entity\Workshops;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<WorkShops>
+ * @extends ServiceEntityRepository<Workshops>
  *
- * @method WorkShops|null find($id, $lockMode = null, $lockVersion = null)
- * @method WorkShops|null findOneBy(array $criteria, array $orderBy = null)
- * @method WorkShops[]    findAll()
- * @method WorkShops[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Workshops|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Workshops|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Workshops[]    findAll()
+ * @method Workshops[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WorkShopsRepository extends ServiceEntityRepository
+class WorkshopsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WorkShops::class);
+        parent::__construct($registry, Workshops::class);
     }
 
-    public function save(WorkShops $entity, bool $flush = false): void
+    public function save(Workshops $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class WorkShopsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(WorkShops $entity, bool $flush = false): void
+    public function remove(Workshops $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class WorkShopsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return WorkShops[] Returns an array of WorkShops objects
+//     * @return Workshops[] Returns an array of Workshops objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class WorkShopsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?WorkShops
+//    public function findOneBySomeField($value): ?Workshops
 //    {
 //        return $this->createQueryBuilder('w')
 //            ->andWhere('w.exampleField = :val')

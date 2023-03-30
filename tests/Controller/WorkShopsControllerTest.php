@@ -2,21 +2,21 @@
 
 namespace App\Test\Controller;
 
-use App\Entity\WorkShops;
-use App\Repository\WorkShopsRepository;
+use App\Entity\Workshops;
+use App\Repository\WorkshopsRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class WorkShopsControllerTest extends WebTestCase
+class WorkshopsControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private WorkShopsRepository $repository;
-    private string $path = '/work/shops/';
+    private WorkshopsRepository $repository;
+    private string $path = '/workshops/';
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->repository = static::getContainer()->get('doctrine')->getRepository(WorkShops::class);
+        $this->repository = static::getContainer()->get('doctrine')->getRepository(Workshops::class);
 
         foreach ($this->repository->findAll() as $object) {
             $this->repository->remove($object, true);
@@ -28,7 +28,7 @@ class WorkShopsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('WorkShop index');
+        self::assertPageTitleContains('Workshop index');
 
         // Use the $crawler to perform additional assertions e.g.
         // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
@@ -44,12 +44,13 @@ class WorkShopsControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'work_shop[name]' => 'Testing',
-            'work_shop[user]' => 'Testing',
-            'work_shop[schedule]' => 'Testing',
+            'workshop[name]' => 'Testing',
+            'workshop[schedule]' => 'Testing',
+            'workshop[personal]' => 'Testing',
+            'workshop[signins]' => 'Testing',
         ]);
 
-        self::assertResponseRedirects('/work/shops/');
+        self::assertResponseRedirects('/workshops/');
 
         self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
     }
@@ -57,17 +58,18 @@ class WorkShopsControllerTest extends WebTestCase
     public function testShow(): void
     {
         $this->markTestIncomplete();
-        $fixture = new WorkShops();
+        $fixture = new Workshops();
         $fixture->setName('My Title');
-        $fixture->setUser('My Title');
         $fixture->setSchedule('My Title');
+        $fixture->setPersonal('My Title');
+        $fixture->setSignins('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('WorkShop');
+        self::assertPageTitleContains('Workshop');
 
         // Use assertions to check that the properties are properly displayed.
     }
@@ -75,28 +77,31 @@ class WorkShopsControllerTest extends WebTestCase
     public function testEdit(): void
     {
         $this->markTestIncomplete();
-        $fixture = new WorkShops();
+        $fixture = new Workshops();
         $fixture->setName('My Title');
-        $fixture->setUser('My Title');
         $fixture->setSchedule('My Title');
+        $fixture->setPersonal('My Title');
+        $fixture->setSignins('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'work_shop[name]' => 'Something New',
-            'work_shop[user]' => 'Something New',
-            'work_shop[schedule]' => 'Something New',
+            'workshop[name]' => 'Something New',
+            'workshop[schedule]' => 'Something New',
+            'workshop[personal]' => 'Something New',
+            'workshop[signins]' => 'Something New',
         ]);
 
-        self::assertResponseRedirects('/work/shops/');
+        self::assertResponseRedirects('/workshops/');
 
         $fixture = $this->repository->findAll();
 
         self::assertSame('Something New', $fixture[0]->getName());
-        self::assertSame('Something New', $fixture[0]->getUser());
         self::assertSame('Something New', $fixture[0]->getSchedule());
+        self::assertSame('Something New', $fixture[0]->getPersonal());
+        self::assertSame('Something New', $fixture[0]->getSignins());
     }
 
     public function testRemove(): void
@@ -105,10 +110,11 @@ class WorkShopsControllerTest extends WebTestCase
 
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
-        $fixture = new WorkShops();
+        $fixture = new Workshops();
         $fixture->setName('My Title');
-        $fixture->setUser('My Title');
         $fixture->setSchedule('My Title');
+        $fixture->setPersonal('My Title');
+        $fixture->setSignins('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -118,6 +124,6 @@ class WorkShopsControllerTest extends WebTestCase
         $this->client->submitForm('Delete');
 
         self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
-        self::assertResponseRedirects('/work/shops/');
+        self::assertResponseRedirects('/workshops/');
     }
 }
