@@ -12,9 +12,9 @@ class HolidaysType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('signin')
-            ->add('user')
             ->add('date')
+            ->add('personal')
+            ->add('signins')
         ;
     }
 

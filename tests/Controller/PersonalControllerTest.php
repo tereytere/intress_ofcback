@@ -44,13 +44,10 @@ class PersonalControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'personal[Image]' => 'Testing',
+            'personal[image]' => 'Testing',
             'personal[name]' => 'Testing',
-            'personal[surName]' => 'Testing',
-            'personal[workshops]' => 'Testing',
-            'personal[signIn]' => 'Testing',
-            'personal[holidays]' => 'Testing',
-            'personal[documents]' => 'Testing',
+            'personal[surname]' => 'Testing',
+            'personal[rol]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/personal/');
@@ -64,11 +61,8 @@ class PersonalControllerTest extends WebTestCase
         $fixture = new Personal();
         $fixture->setImage('My Title');
         $fixture->setName('My Title');
-        $fixture->setSurName('My Title');
-        $fixture->setWorkshops('My Title');
-        $fixture->setSignIn('My Title');
-        $fixture->setHolidays('My Title');
-        $fixture->setDocuments('My Title');
+        $fixture->setSurname('My Title');
+        $fixture->setRol('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -86,24 +80,18 @@ class PersonalControllerTest extends WebTestCase
         $fixture = new Personal();
         $fixture->setImage('My Title');
         $fixture->setName('My Title');
-        $fixture->setSurName('My Title');
-        $fixture->setWorkshops('My Title');
-        $fixture->setSignIn('My Title');
-        $fixture->setHolidays('My Title');
-        $fixture->setDocuments('My Title');
+        $fixture->setSurname('My Title');
+        $fixture->setRol('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'personal[Image]' => 'Something New',
+            'personal[image]' => 'Something New',
             'personal[name]' => 'Something New',
-            'personal[surName]' => 'Something New',
-            'personal[workshops]' => 'Something New',
-            'personal[signIn]' => 'Something New',
-            'personal[holidays]' => 'Something New',
-            'personal[documents]' => 'Something New',
+            'personal[surname]' => 'Something New',
+            'personal[rol]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/personal/');
@@ -112,11 +100,8 @@ class PersonalControllerTest extends WebTestCase
 
         self::assertSame('Something New', $fixture[0]->getImage());
         self::assertSame('Something New', $fixture[0]->getName());
-        self::assertSame('Something New', $fixture[0]->getSurName());
-        self::assertSame('Something New', $fixture[0]->getWorkshops());
-        self::assertSame('Something New', $fixture[0]->getSignIn());
-        self::assertSame('Something New', $fixture[0]->getHolidays());
-        self::assertSame('Something New', $fixture[0]->getDocuments());
+        self::assertSame('Something New', $fixture[0]->getSurname());
+        self::assertSame('Something New', $fixture[0]->getRol());
     }
 
     public function testRemove(): void
@@ -128,11 +113,8 @@ class PersonalControllerTest extends WebTestCase
         $fixture = new Personal();
         $fixture->setImage('My Title');
         $fixture->setName('My Title');
-        $fixture->setSurName('My Title');
-        $fixture->setWorkshops('My Title');
-        $fixture->setSignIn('My Title');
-        $fixture->setHolidays('My Title');
-        $fixture->setDocuments('My Title');
+        $fixture->setSurname('My Title');
+        $fixture->setRol('My Title');
 
         $this->repository->save($fixture, true);
 

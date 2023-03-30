@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SigninRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SigninRepository::class)]
@@ -14,111 +16,142 @@ class Signin
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $holidays = null;
+    private ?string $timestart = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $workshops = null;
+    private ?string $timestop = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $user = null;
+    private ?string $timefinish = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $timeStart = null;
+    private ?string $hourcount = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $timeStop = null;
+    #[ORM\ManyToOne(inversedBy: 'signin')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Personal $personal = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $timeFinish = null;
+    #[ORM\ManyToMany(targetEntity: Holidays::class, inversedBy: 'signins')]
+    private Collection $holidays;
 
-    #[ORM\Column(length: 255)]
-    private ?string $hourCount = null;
+    #[ORM\ManyToMany(targetEntity: Workshops::class, inversedBy: 'signins')]
+    private Collection $workshops;
+
+    public function __construct()
+    {
+        $this->holidays = new ArrayCollection();
+        $this->workshops = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getHolidays(): ?string
+    public function getTimestart(): ?string
+    {
+        return $this->timestart;
+    }
+
+    public function setTimestart(string $timestart): self
+    {
+        $this->timestart = $timestart;
+
+        return $this;
+    }
+
+    public function getTimestop(): ?string
+    {
+        return $this->timestop;
+    }
+
+    public function setTimestop(string $timestop): self
+    {
+        $this->timestop = $timestop;
+
+        return $this;
+    }
+
+    public function getTimefinish(): ?string
+    {
+        return $this->timefinish;
+    }
+
+    public function setTimefinish(string $timefinish): self
+    {
+        $this->timefinish = $timefinish;
+
+        return $this;
+    }
+
+    public function getHourcount(): ?string
+    {
+        return $this->hourcount;
+    }
+
+    public function setHourcount(string $hourcount): self
+    {
+        $this->hourcount = $hourcount;
+
+        return $this;
+    }
+
+    public function getPersonal(): ?Personal
+    {
+        return $this->personal;
+    }
+
+    public function setPersonal(?Personal $personal): self
+    {
+        $this->personal = $personal;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Holidays>
+     */
+    public function getHolidays(): Collection
     {
         return $this->holidays;
     }
 
-    public function setHolidays(string $holidays): self
+    public function addHoliday(Holidays $holiday): self
     {
-        $this->holidays = $holidays;
+        if (!$this->holidays->contains($holiday)) {
+            $this->holidays->add($holiday);
+        }
 
         return $this;
     }
 
-    public function getWorkshops(): ?string
+    public function removeHoliday(Holidays $holiday): self
+    {
+        $this->holidays->removeElement($holiday);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Workshops>
+     */
+    public function getWorkshops(): Collection
     {
         return $this->workshops;
     }
 
-    public function setWorkshops(string $workshops): self
+    public function addWorkshop(Workshops $workshop): self
     {
-        $this->workshops = $workshops;
+        if (!$this->workshops->contains($workshop)) {
+            $this->workshops->add($workshop);
+        }
 
         return $this;
     }
 
-    public function getUser(): ?string
+    public function removeWorkshop(Workshops $workshop): self
     {
-        return $this->user;
-    }
-
-    public function setUser(string $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getTimeStart(): ?string
-    {
-        return $this->timeStart;
-    }
-
-    public function setTimeStart(string $timeStart): self
-    {
-        $this->timeStart = $timeStart;
-
-        return $this;
-    }
-
-    public function getTimeStop(): ?string
-    {
-        return $this->timeStop;
-    }
-
-    public function setTimeStop(string $timeStop): self
-    {
-        $this->timeStop = $timeStop;
-
-        return $this;
-    }
-
-    public function getTimeFinish(): ?string
-    {
-        return $this->timeFinish;
-    }
-
-    public function setTimeFinish(string $timeFinish): self
-    {
-        $this->timeFinish = $timeFinish;
-
-        return $this;
-    }
-
-    public function getHourCount(): ?string
-    {
-        return $this->hourCount;
-    }
-
-    public function setHourCount(string $hourCount): self
-    {
-        $this->hourCount = $hourCount;
+        $this->workshops->removeElement($workshop);
 
         return $this;
     }

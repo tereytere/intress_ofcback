@@ -14,29 +14,18 @@ class Documents
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $user = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $date = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'documents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Personal $personal = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?string
-    {
-        return $this->user;
-    }
-
-    public function setUser(string $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getDate(): ?string
@@ -59,6 +48,18 @@ class Documents
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPersonal(): ?Personal
+    {
+        return $this->personal;
+    }
+
+    public function setPersonal(?Personal $personal): self
+    {
+        $this->personal = $personal;
 
         return $this;
     }

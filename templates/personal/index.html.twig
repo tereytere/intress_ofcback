@@ -11,11 +11,8 @@
                 <th>Id</th>
                 <th>Image</th>
                 <th>Name</th>
-                <th>SurName</th>
-                <th>Workshops</th>
-                <th>SignIn</th>
-                <th>Holidays</th>
-                <th>Documents</th>
+                <th>Surname</th>
+                <th>Rol</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,21 +20,7 @@
         {% for personal in personals %}
             <tr>
                 <td>{{ personal.id }}</td>
-                <td>{{ personal.Image }}</td>
-                <td>{{ personal.name }}</td>
-                <td>{{ personal.surName }}</td>
-                <td>{{ personal.workshops }}</td>
-                <td>{{ personal.signIn }}</td>
-                <td>{{ personal.holidays }}</td>
-                <td>{{ personal.documents }}</td>
-                <td>
-                    <a href="{{ path('app_personal_show', {'id': personal.id}) }}">show</a>
-                    <a href="{{ path('app_personal_edit', {'id': personal.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

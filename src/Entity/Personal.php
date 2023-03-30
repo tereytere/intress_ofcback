@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonalRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonalRepository::class)]
@@ -14,25 +16,36 @@ class Personal
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Image = null;
+    private ?string $image = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $surName = null;
+    private ?string $surname = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $workshops = null;
+    private ?string $rol = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $signIn = null;
+    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Signin::class)]
+    private Collection $signin;
 
-    #[ORM\Column(length: 255)]
-    private ?string $holidays = null;
+    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Holidays::class)]
+    private Collection $holidays;
 
-    #[ORM\Column(length: 255)]
-    private ?string $documents = null;
+    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Workshops::class)]
+    private Collection $workshops;
+
+    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Documents::class)]
+    private Collection $documents;
+
+    public function __construct()
+    {
+        $this->signin = new ArrayCollection();
+        $this->holidays = new ArrayCollection();
+        $this->workshops = new ArrayCollection();
+        $this->documents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -41,12 +54,12 @@ class Personal
 
     public function getImage(): ?string
     {
-        return $this->Image;
+        return $this->image;
     }
 
-    public function setImage(string $Image): self
+    public function setImage(string $image): self
     {
-        $this->Image = $Image;
+        $this->image = $image;
 
         return $this;
     }
@@ -63,62 +76,146 @@ class Personal
         return $this;
     }
 
-    public function getSurName(): ?string
+    public function getSurname(): ?string
     {
-        return $this->surName;
+        return $this->surname;
     }
 
-    public function setSurName(string $surName): self
+    public function setSurname(string $surname): self
     {
-        $this->surName = $surName;
+        $this->surname = $surname;
 
         return $this;
     }
 
-    public function getWorkshops(): ?string
+    public function getRol(): ?string
     {
-        return $this->workshops;
+        return $this->rol;
     }
 
-    public function setWorkshops(string $workshops): self
+    public function setRol(string $rol): self
     {
-        $this->workshops = $workshops;
+        $this->rol = $rol;
 
         return $this;
     }
 
-    public function getSignIn(): ?string
+    /**
+     * @return Collection<int, Signin>
+     */
+    public function getSignin(): Collection
     {
-        return $this->signIn;
+        return $this->signin;
     }
 
-    public function setSignIn(string $signIn): self
+    public function addSignin(Signin $signin): self
     {
-        $this->signIn = $signIn;
+        if (!$this->signin->contains($signin)) {
+            $this->signin->add($signin);
+            $signin->setPersonal($this);
+        }
 
         return $this;
     }
 
-    public function getHolidays(): ?string
+    public function removeSignin(Signin $signin): self
+    {
+        if ($this->signin->removeElement($signin)) {
+            // set the owning side to null (unless already changed)
+            if ($signin->getPersonal() === $this) {
+                $signin->setPersonal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Holidays>
+     */
+    public function getHolidays(): Collection
     {
         return $this->holidays;
     }
 
-    public function setHolidays(string $holidays): self
+    public function addHoliday(Holidays $holiday): self
     {
-        $this->holidays = $holidays;
+        if (!$this->holidays->contains($holiday)) {
+            $this->holidays->add($holiday);
+            $holiday->setPersonal($this);
+        }
 
         return $this;
     }
 
-    public function getDocuments(): ?string
+    public function removeHoliday(Holidays $holiday): self
+    {
+        if ($this->holidays->removeElement($holiday)) {
+            // set the owning side to null (unless already changed)
+            if ($holiday->getPersonal() === $this) {
+                $holiday->setPersonal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Workshops>
+     */
+    public function getWorkshops(): Collection
+    {
+        return $this->workshops;
+    }
+
+    public function addWorkshop(Workshops $workshop): self
+    {
+        if (!$this->workshops->contains($workshop)) {
+            $this->workshops->add($workshop);
+            $workshop->setPersonal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkshop(Workshops $workshop): self
+    {
+        if ($this->workshops->removeElement($workshop)) {
+            // set the owning side to null (unless already changed)
+            if ($workshop->getPersonal() === $this) {
+                $workshop->setPersonal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Documents>
+     */
+    public function getDocuments(): Collection
     {
         return $this->documents;
     }
 
-    public function setDocuments(string $documents): self
+    public function addDocument(Documents $document): self
     {
-        $this->documents = $documents;
+        if (!$this->documents->contains($document)) {
+            $this->documents->add($document);
+            $document->setPersonal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Documents $document): self
+    {
+        if ($this->documents->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getPersonal() === $this) {
+                $document->setPersonal(null);
+            }
+        }
 
         return $this;
     }

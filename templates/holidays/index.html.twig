@@ -9,8 +9,6 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Signin</th>
-                <th>User</th>
                 <th>Date</th>
                 <th>actions</th>
             </tr>
@@ -19,8 +17,6 @@
         {% for holiday in holidays %}
             <tr>
                 <td>{{ holiday.id }}</td>
-                <td>{{ holiday.signin }}</td>
-                <td>{{ holiday.user }}</td>
                 <td>{{ holiday.date }}</td>
                 <td>
                     <a href="{{ path('app_holidays_show', {'id': holiday.id}) }}">show</a>
@@ -29,7 +25,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="3">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

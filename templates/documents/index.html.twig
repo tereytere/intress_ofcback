@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>User</th>
                 <th>Date</th>
                 <th>Description</th>
                 <th>actions</th>
@@ -19,7 +18,6 @@
         {% for document in documents %}
             <tr>
                 <td>{{ document.id }}</td>
-                <td>{{ document.user }}</td>
                 <td>{{ document.date }}</td>
                 <td>{{ document.description }}</td>
                 <td>
@@ -29,7 +27,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

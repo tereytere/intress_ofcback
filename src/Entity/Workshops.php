@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\HolidaysRepository;
+use App\Repository\WorkshopsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: HolidaysRepository::class)]
-class Holidays
+#[ORM\Entity(repositoryClass: WorkshopsRepository::class)]
+class Workshops
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,13 +16,16 @@ class Holidays
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $date = null;
+    private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'holidays')]
+    #[ORM\Column(length: 255)]
+    private ?string $schedule = null;
+
+    #[ORM\ManyToOne(inversedBy: 'workshops')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Personal $personal = null;
 
-    #[ORM\ManyToMany(targetEntity: Signin::class, mappedBy: 'holidays')]
+    #[ORM\ManyToMany(targetEntity: Signin::class, mappedBy: 'workshops')]
     private Collection $signins;
 
     public function __construct()
@@ -35,14 +38,26 @@ class Holidays
         return $this->id;
     }
 
-    public function getDate(): ?string
+    public function getName(): ?string
     {
-        return $this->date;
+        return $this->name;
     }
 
-    public function setDate(string $date): self
+    public function setName(string $name): self
     {
-        $this->date = $date;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSchedule(): ?string
+    {
+        return $this->schedule;
+    }
+
+    public function setSchedule(string $schedule): self
+    {
+        $this->schedule = $schedule;
 
         return $this;
     }
@@ -71,7 +86,7 @@ class Holidays
     {
         if (!$this->signins->contains($signin)) {
             $this->signins->add($signin);
-            $signin->addHoliday($this);
+            $signin->addWorkshop($this);
         }
 
         return $this;
@@ -80,7 +95,7 @@ class Holidays
     public function removeSignin(Signin $signin): self
     {
         if ($this->signins->removeElement($signin)) {
-            $signin->removeHoliday($this);
+            $signin->removeWorkshop($this);
         }
 
         return $this;

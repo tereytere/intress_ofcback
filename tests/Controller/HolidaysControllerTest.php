@@ -44,9 +44,9 @@ class HolidaysControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'holiday[signin]' => 'Testing',
-            'holiday[user]' => 'Testing',
             'holiday[date]' => 'Testing',
+            'holiday[personal]' => 'Testing',
+            'holiday[signins]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/holidays/');
@@ -58,9 +58,9 @@ class HolidaysControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Holidays();
-        $fixture->setSignin('My Title');
-        $fixture->setUser('My Title');
         $fixture->setDate('My Title');
+        $fixture->setPersonal('My Title');
+        $fixture->setSignins('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -76,27 +76,27 @@ class HolidaysControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Holidays();
-        $fixture->setSignin('My Title');
-        $fixture->setUser('My Title');
         $fixture->setDate('My Title');
+        $fixture->setPersonal('My Title');
+        $fixture->setSignins('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'holiday[signin]' => 'Something New',
-            'holiday[user]' => 'Something New',
             'holiday[date]' => 'Something New',
+            'holiday[personal]' => 'Something New',
+            'holiday[signins]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/holidays/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getSignin());
-        self::assertSame('Something New', $fixture[0]->getUser());
         self::assertSame('Something New', $fixture[0]->getDate());
+        self::assertSame('Something New', $fixture[0]->getPersonal());
+        self::assertSame('Something New', $fixture[0]->getSignins());
     }
 
     public function testRemove(): void
@@ -106,9 +106,9 @@ class HolidaysControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Holidays();
-        $fixture->setSignin('My Title');
-        $fixture->setUser('My Title');
         $fixture->setDate('My Title');
+        $fixture->setPersonal('My Title');
+        $fixture->setSignins('My Title');
 
         $this->repository->save($fixture, true);
 

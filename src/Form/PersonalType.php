@@ -12,13 +12,10 @@ class PersonalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Image')
+            ->add('image')
             ->add('name')
-            ->add('surName')
-            ->add('workshops')
-            ->add('signIn')
-            ->add('holidays')
-            ->add('documents')
+            ->add('surname')
+            ->add('rol')
         ;
     }
 

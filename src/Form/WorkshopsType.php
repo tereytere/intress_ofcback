@@ -2,30 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Signin;
+use App\Entity\Workshops;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SigninType extends AbstractType
+class WorkshopsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('timestart')
-            ->add('timestop')
-            ->add('timefinish')
-            ->add('hourcount')
+            ->add('name')
+            ->add('schedule')
             ->add('personal')
-            ->add('holidays')
-            ->add('workshops')
+            ->add('signins')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Signin::class,
+            'data_class' => Workshops::class,
         ]);
     }
 }

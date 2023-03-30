@@ -44,13 +44,13 @@ class SigninControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
+            'signin[timestart]' => 'Testing',
+            'signin[timestop]' => 'Testing',
+            'signin[timefinish]' => 'Testing',
+            'signin[hourcount]' => 'Testing',
+            'signin[personal]' => 'Testing',
             'signin[holidays]' => 'Testing',
             'signin[workshops]' => 'Testing',
-            'signin[user]' => 'Testing',
-            'signin[timeStart]' => 'Testing',
-            'signin[timeStop]' => 'Testing',
-            'signin[timeFinish]' => 'Testing',
-            'signin[hourCount]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/signin/');
@@ -62,13 +62,13 @@ class SigninControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Signin();
+        $fixture->setTimestart('My Title');
+        $fixture->setTimestop('My Title');
+        $fixture->setTimefinish('My Title');
+        $fixture->setHourcount('My Title');
+        $fixture->setPersonal('My Title');
         $fixture->setHolidays('My Title');
         $fixture->setWorkshops('My Title');
-        $fixture->setUser('My Title');
-        $fixture->setTimeStart('My Title');
-        $fixture->setTimeStop('My Title');
-        $fixture->setTimeFinish('My Title');
-        $fixture->setHourCount('My Title');
 
         $this->repository->save($fixture, true);
 
@@ -84,39 +84,39 @@ class SigninControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Signin();
+        $fixture->setTimestart('My Title');
+        $fixture->setTimestop('My Title');
+        $fixture->setTimefinish('My Title');
+        $fixture->setHourcount('My Title');
+        $fixture->setPersonal('My Title');
         $fixture->setHolidays('My Title');
         $fixture->setWorkshops('My Title');
-        $fixture->setUser('My Title');
-        $fixture->setTimeStart('My Title');
-        $fixture->setTimeStop('My Title');
-        $fixture->setTimeFinish('My Title');
-        $fixture->setHourCount('My Title');
 
         $this->repository->save($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
+            'signin[timestart]' => 'Something New',
+            'signin[timestop]' => 'Something New',
+            'signin[timefinish]' => 'Something New',
+            'signin[hourcount]' => 'Something New',
+            'signin[personal]' => 'Something New',
             'signin[holidays]' => 'Something New',
             'signin[workshops]' => 'Something New',
-            'signin[user]' => 'Something New',
-            'signin[timeStart]' => 'Something New',
-            'signin[timeStop]' => 'Something New',
-            'signin[timeFinish]' => 'Something New',
-            'signin[hourCount]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/signin/');
 
         $fixture = $this->repository->findAll();
 
+        self::assertSame('Something New', $fixture[0]->getTimestart());
+        self::assertSame('Something New', $fixture[0]->getTimestop());
+        self::assertSame('Something New', $fixture[0]->getTimefinish());
+        self::assertSame('Something New', $fixture[0]->getHourcount());
+        self::assertSame('Something New', $fixture[0]->getPersonal());
         self::assertSame('Something New', $fixture[0]->getHolidays());
         self::assertSame('Something New', $fixture[0]->getWorkshops());
-        self::assertSame('Something New', $fixture[0]->getUser());
-        self::assertSame('Something New', $fixture[0]->getTimeStart());
-        self::assertSame('Something New', $fixture[0]->getTimeStop());
-        self::assertSame('Something New', $fixture[0]->getTimeFinish());
-        self::assertSame('Something New', $fixture[0]->getHourCount());
     }
 
     public function testRemove(): void
@@ -126,13 +126,13 @@ class SigninControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new Signin();
+        $fixture->setTimestart('My Title');
+        $fixture->setTimestop('My Title');
+        $fixture->setTimefinish('My Title');
+        $fixture->setHourcount('My Title');
+        $fixture->setPersonal('My Title');
         $fixture->setHolidays('My Title');
         $fixture->setWorkshops('My Title');
-        $fixture->setUser('My Title');
-        $fixture->setTimeStart('My Title');
-        $fixture->setTimeStop('My Title');
-        $fixture->setTimeFinish('My Title');
-        $fixture->setHourCount('My Title');
 
         $this->repository->save($fixture, true);
 

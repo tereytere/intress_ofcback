@@ -158,17 +158,12 @@
             "ref": "819d3d2ffa4590eba0b8f4f3e5e89415ee4e45c3"
         },
         "files": [
-<<<<<<< HEAD
+            
             "./.env.test",
             "./bin/phpunit",
             "./phpunit.xml.dist",
             "./tests/bootstrap.php"
-=======
-            ".env.test",
-            "bin/phpunit",
-            "phpunit.xml.dist",
-            "tests/bootstrap.php"
->>>>>>> fe6c6132ef4731ea14eab3686f1ce8d712601e2d
+
         ]
     },
     "symfony/routing": {
