@@ -18,18 +18,7 @@ class Holidays
     #[ORM\Column(length: 255)]
     private ?string $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'holidays')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Personal $personal = null;
-
-    #[ORM\ManyToMany(targetEntity: Signin::class, mappedBy: 'holidays')]
-    private Collection $signins;
-
-    public function __construct()
-    {
-        $this->signins = new ArrayCollection();
-    }
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -47,42 +36,4 @@ class Holidays
         return $this;
     }
 
-    public function getPersonal(): ?Personal
-    {
-        return $this->personal;
-    }
-
-    public function setPersonal(?Personal $personal): self
-    {
-        $this->personal = $personal;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Signin>
-     */
-    public function getSignins(): Collection
-    {
-        return $this->signins;
-    }
-
-    public function addSignin(Signin $signin): self
-    {
-        if (!$this->signins->contains($signin)) {
-            $this->signins->add($signin);
-            $signin->addHoliday($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSignin(Signin $signin): self
-    {
-        if ($this->signins->removeElement($signin)) {
-            $signin->removeHoliday($this);
-        }
-
-        return $this;
-    }
 }

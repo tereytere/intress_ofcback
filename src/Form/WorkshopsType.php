@@ -14,8 +14,6 @@ class WorkshopsType extends AbstractType
         $builder
             ->add('name')
             ->add('schedule')
-            ->add('personal')
-            ->add('signins')
         ;
     }
 

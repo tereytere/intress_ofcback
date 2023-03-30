@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DocumentsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DocumentsRepository::class)]
@@ -19,9 +21,14 @@ class Documents
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'documents')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Personal $personal = null;
+    #[ORM\OneToMany(mappedBy: 'documents', targetEntity: Personal::class)]
+    private Collection $personals;
+
+    public function __construct()
+    {
+        $this->personals = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -52,15 +59,34 @@ class Documents
         return $this;
     }
 
-    public function getPersonal(): ?Personal
+    /**
+     * @return Collection<int, Personal>
+     */
+    public function getPersonals(): Collection
     {
-        return $this->personal;
+        return $this->personals;
     }
 
-    public function setPersonal(?Personal $personal): self
+    public function addPersonal(Personal $personal): self
     {
-        $this->personal = $personal;
+        if (!$this->personals->contains($personal)) {
+            $this->personals->add($personal);
+            $personal->setDocuments($this);
+        }
 
         return $this;
     }
+
+    public function removePersonal(Personal $personal): self
+    {
+        if ($this->personals->removeElement($personal)) {
+            // set the owning side to null (unless already changed)
+            if ($personal->getDocuments() === $this) {
+                $personal->setDocuments(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

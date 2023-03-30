@@ -13,8 +13,6 @@ class HolidaysType extends AbstractType
     {
         $builder
             ->add('date')
-            ->add('personal')
-            ->add('signins')
         ;
     }
 

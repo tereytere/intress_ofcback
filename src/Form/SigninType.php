@@ -16,9 +16,6 @@ class SigninType extends AbstractType
             ->add('timestop')
             ->add('timefinish')
             ->add('hourcount')
-            ->add('personal')
-            ->add('holidays')
-            ->add('workshops')
         ;
     }
 

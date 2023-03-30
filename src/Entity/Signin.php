@@ -27,9 +27,8 @@ class Signin
     #[ORM\Column(length: 255)]
     private ?string $hourcount = null;
 
-    #[ORM\ManyToOne(inversedBy: 'signin')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Personal $personal = null;
+    #[ORM\OneToMany(mappedBy: 'signin', targetEntity: Personal::class)]
+    private Collection $personals;
 
     #[ORM\ManyToMany(targetEntity: Holidays::class, inversedBy: 'signins')]
     private Collection $holidays;
@@ -39,6 +38,7 @@ class Signin
 
     public function __construct()
     {
+        $this->personals = new ArrayCollection();
         $this->holidays = new ArrayCollection();
         $this->workshops = new ArrayCollection();
     }
@@ -96,14 +96,32 @@ class Signin
         return $this;
     }
 
-    public function getPersonal(): ?Personal
+    /**
+     * @return Collection<int, Personal>
+     */
+    public function getPersonals(): Collection
     {
-        return $this->personal;
+        return $this->personals;
     }
 
-    public function setPersonal(?Personal $personal): self
+    public function addPersonal(Personal $personal): self
     {
-        $this->personal = $personal;
+        if (!$this->personals->contains($personal)) {
+            $this->personals->add($personal);
+            $personal->setSignin($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonal(Personal $personal): self
+    {
+        if ($this->personals->removeElement($personal)) {
+            // set the owning side to null (unless already changed)
+            if ($personal->getSignin() === $this) {
+                $personal->setSignin(null);
+            }
+        }
 
         return $this;
     }
@@ -155,4 +173,5 @@ class Signin
 
         return $this;
     }
+    
 }

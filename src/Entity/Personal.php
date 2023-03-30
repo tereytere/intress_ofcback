@@ -27,25 +27,17 @@ class Personal
     #[ORM\Column(length: 255)]
     private ?string $rol = null;
 
-    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Signin::class)]
-    private Collection $signin;
+    #[ORM\ManyToOne(inversedBy: 'personals')]
+    private ?Workshops $workshops = null;
 
-    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Holidays::class)]
-    private Collection $holidays;
+    #[ORM\ManyToOne(inversedBy: 'personals')]
+    private ?Signin $signin = null;
 
-    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Workshops::class)]
-    private Collection $workshops;
+    #[ORM\ManyToOne(inversedBy: 'personals')]
+    private ?Holidays $holidays = null;
 
-    #[ORM\OneToMany(mappedBy: 'personal', targetEntity: Documents::class)]
-    private Collection $documents;
-
-    public function __construct()
-    {
-        $this->signin = new ArrayCollection();
-        $this->holidays = new ArrayCollection();
-        $this->workshops = new ArrayCollection();
-        $this->documents = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'personals')]
+    private ?Documents $documents = null;
 
     public function getId(): ?int
     {
@@ -104,123 +96,52 @@ class Personal
         return $this;
     }
 
-    /**
-     * @return Collection<int, Signin>
-     */
-    public function getSignin(): Collection
-    {
-        return $this->signin;
-    }
-
-    public function addSignin(Signin $signin): self
-    {
-        if (!$this->signin->contains($signin)) {
-            $this->signin->add($signin);
-            $signin->setPersonal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSignin(Signin $signin): self
-    {
-        if ($this->signin->removeElement($signin)) {
-            // set the owning side to null (unless already changed)
-            if ($signin->getPersonal() === $this) {
-                $signin->setPersonal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Holidays>
-     */
-    public function getHolidays(): Collection
-    {
-        return $this->holidays;
-    }
-
-    public function addHoliday(Holidays $holiday): self
-    {
-        if (!$this->holidays->contains($holiday)) {
-            $this->holidays->add($holiday);
-            $holiday->setPersonal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHoliday(Holidays $holiday): self
-    {
-        if ($this->holidays->removeElement($holiday)) {
-            // set the owning side to null (unless already changed)
-            if ($holiday->getPersonal() === $this) {
-                $holiday->setPersonal(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Workshops>
-     */
-    public function getWorkshops(): Collection
+    public function getWorkshops(): ?Workshops
     {
         return $this->workshops;
     }
 
-    public function addWorkshop(Workshops $workshop): self
+    public function setWorkshops(?Workshops $workshops): self
     {
-        if (!$this->workshops->contains($workshop)) {
-            $this->workshops->add($workshop);
-            $workshop->setPersonal($this);
-        }
+        $this->workshops = $workshops;
 
         return $this;
     }
 
-    public function removeWorkshop(Workshops $workshop): self
+    public function getSignin(): ?Signin
     {
-        if ($this->workshops->removeElement($workshop)) {
-            // set the owning side to null (unless already changed)
-            if ($workshop->getPersonal() === $this) {
-                $workshop->setPersonal(null);
-            }
-        }
+        return $this->signin;
+    }
+
+    public function setSignin(?Signin $signin): self
+    {
+        $this->signin = $signin;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Documents>
-     */
-    public function getDocuments(): Collection
+    public function getHolidays(): ?Holidays
+    {
+        return $this->holidays;
+    }
+
+    public function setHolidays(?Holidays $holidays): self
+    {
+        $this->holidays = $holidays;
+
+        return $this;
+    }
+
+    public function getDocuments(): ?Documents
     {
         return $this->documents;
     }
 
-    public function addDocument(Documents $document): self
+    public function setDocuments(?Documents $documents): self
     {
-        if (!$this->documents->contains($document)) {
-            $this->documents->add($document);
-            $document->setPersonal($this);
-        }
+        $this->documents = $documents;
 
         return $this;
     }
 
-    public function removeDocument(Documents $document): self
-    {
-        if ($this->documents->removeElement($document)) {
-            // set the owning side to null (unless already changed)
-            if ($document->getPersonal() === $this) {
-                $document->setPersonal(null);
-            }
-        }
-
-        return $this;
-    }
 }

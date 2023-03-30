@@ -16,6 +16,10 @@ class PersonalType extends AbstractType
             ->add('name')
             ->add('surname')
             ->add('rol')
+            ->add('workshops')
+            ->add('signin')
+            ->add('holidays')
+            ->add('documents')
         ;
     }
 
